@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Npgsql.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace FashionProject
 {
@@ -24,6 +27,17 @@ namespace FashionProject
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+            services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationContext>(option => option.UseNpgsql(
+                Configuration.GetConnectionString("Connect")));
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+				.AddCookie(options =>
+				{
+					options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Home/Login");
+					options.LogoutPath = new Microsoft.AspNetCore.Http.PathString("/Home/Logout");
+					options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Home/Index");
+					options.ExpireTimeSpan = System.TimeSpan.FromDays(2);
+				}
+			);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

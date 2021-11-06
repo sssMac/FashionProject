@@ -7,7 +7,7 @@
 </head>
 
 <!DOCTYPE html>
-
+@model FashionProject.Models.UserViewModel
 <html>
 <head>
     <title>title</title>
@@ -18,28 +18,29 @@
         <div class="Login_title">
             Registration
         </div>
-        <div class="RegLog_center">
-            <div class="Info">
-                <div class="Second_Info">
-                    <input type="text" placeholder="Email" class="Input">
-                </div>
+       
+    <form asp-action="Registration" asp-controller="RegistrationLogin" asp-anti-forgery="true" class="RegLog_center">
+        <div class="Info">
+            <div class="Second_Info">
+                <input type="email" placeholder="Email" class="Input" name="email" asp-for="Email">
             </div>
-            <div class="Info">
-                <div class="Second_Info">
-                    <input type="text" placeholder="Password" class="Input">
-                </div>
-            </div>
-            <div class="Info">
-                <div class="Second_Info">
-                    <input type="text" placeholder="Confirm Password" class="Input">
-                </div>
+        </div>
+        <div class="Info">
+        <div class="Second_Info">
+            <input type="password" placeholder="Password" class="Input" name="password" asp-for="Password">
+        </div>
+        </div>
+        <div class="Info">
+            <div class="Second_Info">
+                <input type="password" placeholder="Confirm Password" class="Input" name="confirmPassword" asp-for="ConfirmPassword">
             </div>
         </div>
         <div class="Confirm_Button_Position">
-            <button class="Confirm_Button">
+            <button type="submit" class="Confirm_Button">
                 Join us!
             </button>
         </div>
+    </form>
     </div>
 
 

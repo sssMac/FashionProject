@@ -1,4 +1,4 @@
-﻿
+﻿@model FashionProject.Models.UserViewModel
 @{
     Layout = "../Shared/_RagistrationLogin.cshtml";
 }
@@ -18,23 +18,24 @@
         <div class="Login_title">
             Log In
         </div>
-        <div class="RegLog_center">
+       
+        <form asp-action="Login" asp-controller="RegistrationLogin" asp-anti-forgery="true" class="RegLog_center">
             <div class="Info">
                 <div class="Second_Info">
-                    <input type="text" placeholder="Login" class="Input">
+                    <input type="email" placeholder="Email" class="Input" name="email" asp-for="Email">
                 </div>
             </div>
             <div class="Info">
                 <div class="Second_Info">
-                    <input type="text" placeholder="Password" class="Input">
+                    <input type="password" placeholder="Password" class="Input" name="password" asp-for="Password">
                 </div>
             </div>
-        </div>
-        <div class="Confirm_Button_Position">
-            <button class="Confirm_Button">
-                Confirm
-            </button>
-        </div>
+            <div class="Confirm_Button_Position">
+                <button type="submit" class="Confirm_Button">
+                    Confirm
+                </button>
+            </div>
+        </form>
     </div>
 
 
