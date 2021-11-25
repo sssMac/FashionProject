@@ -1,73 +1,103 @@
-﻿<!DOCTYPE html>
+﻿@model FashionProject.Models.User
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - FashionProject</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="~/css/Home.css"/>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/Home.css" />
 </head>
 <body>
-<div class="Header">
-    <div class="EFN-Position">
-        <div class="EFN">
-            EFN
+    <div class="Header">
+        <div class="EFN-Position">
+            <div class="EFN">
+                EFN
+            </div>
         </div>
-    </div>
-    
-</div>
-<div class="Menu">
-    <div class="Menu-Buttons">
-        <div class="Buttons">
-            <a href="" class="ButtonsStyle">
-                News
-            </a>
-        </div>
-        <div class="Buttons">
-            <a href="" class="ButtonsStyle">
-                Categories
-            </a>
-        </div>
-        <div class="Buttons">
-            <a href="" class="ButtonsStyle">
-                Stars looks
-            </a>
-        </div>
-        <div class="Buttons">
-            <a href="" class="ButtonsStyle">
-                Charts
-            </a>
-        </div>
-        <div class="Buttons">
-            <a href="" class="ButtonsStyle">
-                Timeline
-            </a>
-        </div>
-        <div class="Buttons">
-            <a href="" class="ButtonsStyle">
-                Contact us
-            </a>
-        </div>
-        <div class="Buttons">
-            <a href="" class="ButtonsStyle">
-                About us
-            </a>
-        </div>
-    </div>
-</div>
-@RenderBody()
-    
-<div class="Home">
-   <footer>
-        <div class="Copyright">
-            © EFN 2021
-        </div>
-    </footer>
-</div>
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="~/js/site.js" asp-append-version="true"></script>
+    </div>
+    <div class="Menu">
+        <div class="Menu-Buttons">
+            <div class="Buttons">
+                <a href="" class="ButtonsStyle">
+                    News
+                </a>
+            </div>
+            <div class="Buttons">
+                <a href="" class="ButtonsStyle">
+                    Categories
+                </a>
+            </div>
+            <div class="Buttons">
+                <a href="" class="ButtonsStyle">
+                    Stars looks
+                </a>
+            </div>
+            <div class="Buttons">
+                <a href="" class="ButtonsStyle">
+                    Charts
+                </a>
+            </div>
+            <div class="Buttons">
+                <a href="" class="ButtonsStyle">
+                    Timeline
+                </a>
+            </div>
+            <div class="Buttons">
+                <a href="" class="ButtonsStyle">
+                    Contact us
+                </a>
+            </div>
+            <div class="Buttons">
+                <a href="" class="ButtonsStyle">
+                    About us
+                </a>
+            </div>
+            <div class="Buttons">
+                @if (Model != null)
+                {
+                    <div id="Buttons">
+                        <a asp-action="Profile" asp-controller="Home" class="ButtonsStyle">
+                            Profile
+                        </a>
+                    </div>
+                    <div class="Buttons">
+                        <a asp-action="Logout" asp-controller="RegistrationLogin" class="ButtonsStyle">
+                            Log Out
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="Buttons">
+                        <a asp-action="Login" asp-controller="RegistrationLogin" class="ButtonsStyle">
+                            Log in
+                        </a>
+                    </div>
+                    <div class="Buttons">
+                        <a asp-action="Registration" asp-controller="RegistrationLogin" class="ButtonsStyle">
+                            Registration
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    @RenderBody()
+
+    <div class="Home">
+        <footer>
+            <div class="Copyright">
+                © EFN 2021
+            </div>
+        </footer>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
 
 
 </body>

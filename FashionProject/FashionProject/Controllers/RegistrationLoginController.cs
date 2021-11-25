@@ -8,6 +8,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System;
+using FashionProject.Interfaces;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authorization;
+using FashionProject.Services;
 
 namespace FashionProject.Controllers
 {
@@ -15,17 +21,14 @@ namespace FashionProject.Controllers
     {
         ApplicationContext db;
 
-        public RegistrationLoginController(ApplicationContext context)
+        private readonly IJWTAuthManager _jWTAuthManager;
+
+        public RegistrationLoginController(ApplicationContext context, IJWTAuthManager jWTAuthManager)
         {
             db = context;
+            _jWTAuthManager = jWTAuthManager;
         }
-        
-        [HttpGet]
-        public IActionResult Login()
-        {
-            return View();
-        }
-        
+
         [HttpGet]
         public IActionResult Registration()
         {
@@ -53,7 +56,7 @@ namespace FashionProject.Controllers
                     await db.SaveChangesAsync();
 
 
-                    return RedirectToAction("Check", "Home");
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                     ModelState.AddModelError("", "User already exists");
@@ -61,24 +64,45 @@ namespace FashionProject.Controllers
             return View(model);
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Login(UserViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        User user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
+        [HttpGet]
+        public IActionResult Login()
+        {
+            if (Request.Cookies["token"] != null)
+                return RedirectToAction("Index", "Home");
 
-        //        if (user != null)
-        //        {
-        //            ViewBag.User = user;
-        //            return RedirectToAction("Check", "Home");
-        //        }
-        //        ModelState.AddModelError("", "Некорректные логин и(или) пароль");
-        //    }
-        //    return View(model);
-        //}
+            return View();
+        }
 
-        
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> Login(UserViewModel model)
+        {
+            User user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
+            if (user == null)
+            {
+                return RedirectToAction("Registration", "RegistrationLogin");
+            }
+            var token = _jWTAuthManager.Authenticate(user);
+
+            if (token == null)
+                return RedirectToAction("Login", "RegistrationLogin");
+            else
+            {
+                Response.Cookies.Append("token", token);
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Logout()
+        {
+            var token = Request.Cookies["token"];
+            if (token == null)
+                return RedirectToAction("Index", "Home");
+            Response.Cookies.Delete("token");
+            return RedirectToAction("Index", "Home");
+        }
+
+
     }
 }

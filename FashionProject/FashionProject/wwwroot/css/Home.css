@@ -84,12 +84,19 @@
     text-decoration: none;
     word-break: normal;
 }
+#Account_buttons {
+    display: flex;
+    position: relative;
+    align-items: center;
+    margin-left: 400px;
+    width: 200px;
+}
 footer {
     display: flex;
     height: 30px;
     width: 100%;
     align-items: center;
-    justify-content:  center;
+    justify-content: center;
     margin-top: auto;
     background-color: darkred;
 }

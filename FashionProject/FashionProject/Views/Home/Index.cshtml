@@ -1,21 +1,34 @@
 ﻿@{
     Layout = "../Shared/_Layout.cshtml";
 }
+
+
+@model FashionProject.Models.User
+
 <head>
-    <link rel="stylesheet" href="~/css/HomeMain.css"/>
+    <link rel="stylesheet" href="~/css/HomeMain.css" />
 </head>
 
 
+<h1>
+    @if (Model != null)
+    {
+        @Model.Id
+        @Model.Username
+    }
+
+</h1>
+
 <div class="Main_Content">
     @for (int i = 0; i < 20; i++)
-     {
+    {
         <div class="Content_Frame">
             <div class="Frame">
 
             </div>
-            <div class ="Titel">
+            <div class="Titel">
                 Titel
-             </div>
+            </div>
         </div>
-     }
+    }
 </div>
