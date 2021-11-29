@@ -1,5 +1,6 @@
 ﻿@{
     Layout = "../Shared/_Layout.cshtml";
+    ViewBag.Title = "Home";
 }
 
 
@@ -9,15 +10,6 @@
     <link rel="stylesheet" href="~/css/HomeMain.css" />
 </head>
 
-
-<h1>
-    @if (Model != null)
-    {
-        @Model.Id
-        @Model.Username
-    }
-
-</h1>
 
 <div class="Main_Content">
     @for (int i = 0; i < 20; i++)
