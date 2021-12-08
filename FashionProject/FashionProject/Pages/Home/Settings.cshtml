@@ -1,0 +1,89 @@
+﻿@page
+
+@{
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+
+@{
+    ViewBag.Title = "Settings";
+
+}
+<div class="Username">
+    Username
+</div>
+
+<img class="Avatar" style='width:300px; height:300px;' src="https://i0.wp.com/t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg" />
+
+
+<form id="SettingsForm">
+    <label>Username</label>
+    <div class="Info">
+        <div class="Second_Info">
+            <input type="text" placeholder="Email" class="Input" name="username">
+        </div>
+    </div>
+    <label>Avatar</label>
+    <div class="Info">
+        <div class="Second_Info">
+            <input type="file" class="Input" name="avatar">
+        </div>
+    </div>
+    <div class="Info">
+        <div class="Second_Info">
+            <input type="password" placeholder="Password" class="Input" name="currentpassword">
+        </div>
+    </div><div class="Info">
+    <div class="Second_Info">
+        <input type="password" placeholder="Password" class="Input" name="newpassword">
+    </div>
+</div>
+    <div class="Confirm_Button_Position">
+        <button type="submit" class="Confirm_Button">
+            Confirm
+        </button>
+    </div> 
+</form>
+
+@section Scripts {
+    <script>
+        $('#SettingsForm').on('submit', function (e) {
+
+            e.preventDefault();
+            const data = Object.fromEntries(new FormData(e.target).entries());
+            console.log(data);
+            $.ajax({
+                type: 'POST',
+                url: '/api/Home/settings',
+                data: data,
+                success: function (result) {
+                    console.log(result);
+                },
+                error: function (err) {
+                    console.error(err);
+                },
+            });
+
+        });
+
+        $.ajax({
+            type: 'GET',
+            url: '/api/Home/currentUser',
+            success: function (result) {
+                console.log(result);
+                if (result == null)
+                    window.location.href = "/RegistrationLogin/login";
+                $(".Username").text(result.username);
+                if (result.avatar != null)
+                    $(".Avatar").attr("src", ByteArrayToJpeg(result.avatar));
+    
+            },
+            error: function (err) {
+                console.error(err);
+            },
+        });
+
+        
+    </script>
+    
+}

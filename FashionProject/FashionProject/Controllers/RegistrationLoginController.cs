@@ -17,7 +17,9 @@ using FashionProject.Services;
 
 namespace FashionProject.Controllers
 {
-    public class RegistrationLoginController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class RegistrationLoginController : ControllerBase
     {
         ApplicationContext db;
 
@@ -29,15 +31,8 @@ namespace FashionProject.Controllers
             _jWTAuthManager = jWTAuthManager;
         }
 
-        [HttpGet]
-        public IActionResult Registration()
-        {
-            return View();
-        }
-
-        [HttpPost]
-		[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Registration(UserViewModel model)
+        [HttpPost("register")]
+        public async Task<IActionResult> PostReg([FromForm] UserViewModel model)
         {
             if (ModelState.IsValid && model.ConfirmPassword == model.Password)
             {
@@ -53,53 +48,40 @@ namespace FashionProject.Controllers
                     };
                     db.Users.Add(currentUser);
                     await db.SaveChangesAsync();
-
-
-                    return RedirectToAction("Index", "Home");
                 }
                 else
                     ModelState.AddModelError("", "User already exists");
             }
-            return View(model);
+            return Ok();
+
         }
 
-        [HttpGet]
-        public IActionResult Login()
-        {
-            if (Request.Cookies["token"] != null)
-                return RedirectToAction("Login", "RegistrationLogin");
-
-            return View();
-        }
 
         [AllowAnonymous]
-        [HttpPost]
-        public async Task<IActionResult> Login(UserViewModel model)
+        [HttpPost("login")]
+        public async Task<IActionResult> PostLogin([FromForm] UserViewModel model)
         {
             User user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == Encryption.EncryptString(model.Password));
-            if (user == null)
+            if (user != null)
             {
-                return RedirectToAction("Registration", "RegistrationLogin");
-            }
-            var token = _jWTAuthManager.Authenticate(user);
+                var token = _jWTAuthManager.Authenticate(user);
 
-            if (token == null)
-                return RedirectToAction("Login", "RegistrationLogin");
-            else
-            {
-                Response.Cookies.Append("token", token);
-                return RedirectToAction("Index", "Home");
+                if (token != null)
+                {
+                    Response.Cookies.Append("token", token);
+                    return Ok();
+                }
             }
+            return BadRequest();
         }
 
-        [HttpGet]
+        [HttpGet("logout")]
         public IActionResult Logout()
         {
             var token = Request.Cookies["token"];
-            if (token == null)
-                return RedirectToAction("Index", "Home");
-            Response.Cookies.Delete("token");
-            return RedirectToAction("Index", "Home");
+            if (token != null)
+                Response.Cookies.Delete("token");
+            return Ok();
         }
 
 

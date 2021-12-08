@@ -1,0 +1,77 @@
+﻿@page
+
+@{
+    Layout = "../Shared/_RagistrationLogin.cshtml";
+}
+<head>
+    <link rel="stylesheet" href="~/css/RegistrationLogin.css" />
+</head>
+
+<!DOCTYPE html>
+@model FashionProject.Models.UserViewModel
+<html>
+<head>
+    <title>title</title>
+</head>
+<body>
+    <div class="All_Content_RegLog">
+        <div class="Main_Page">
+            <div class="Login_title">
+                Registration
+            </div>
+
+            <form id="RegForm" class="RegLog_center">
+                <div class="Info">
+                    <div class="Second_Info">
+                        <input type="email" placeholder="Email" class="Input" name="email">
+                    </div>
+                </div>
+                <div class="Info">
+                    <div class="Second_Info">
+                        <input type="password" placeholder="Password" class="Input" name="password">
+                    </div>
+                </div>
+                <div class="Info">
+                    <div class="Second_Info">
+                        <input type="password" placeholder="Confirm Password" class="Input" name="confirmPassword" >
+                    </div>
+                </div>
+                <div class="Confirm_Button_Position">
+                    <button type="submit" class="Confirm_Button">
+                        Join us!
+                    </button>
+                </div>
+            </form>
+        </div>
+
+
+    </div>
+</body>
+</html>
+
+@section Scripts 
+{
+<script>
+    $('#RegForm').on('submit', function (e) {
+
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(e.target).entries());
+        
+        $.ajax({
+            type: 'POST',
+            url: '/api/RegistrationLogin/register',
+            data: data,
+            success: function (result) {
+                console.log(result);
+            },
+            error: function (err) {
+                console.error(err);
+            },
+            complete: function (com) {
+                window.location.href = "/home/index"
+            },
+        });
+        
+    });
+</script>
+}

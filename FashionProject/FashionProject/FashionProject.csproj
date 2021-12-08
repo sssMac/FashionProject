@@ -6,7 +6,6 @@
 
     <ItemGroup>
       <Folder Include="Migrations\" />
-      <Folder Include="Pages\" />
     </ItemGroup>
 
 	<ItemGroup>
@@ -17,6 +16,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
+		<PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" Version="3.2.6" />
 		<PackageReference Include="Microsoft.NETCore.App" Version="2.2.8" />
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.8" />

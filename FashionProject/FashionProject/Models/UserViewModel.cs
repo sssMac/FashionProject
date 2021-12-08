@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FashionProject.Models
 {
@@ -16,5 +13,7 @@ namespace FashionProject.Models
         public string CurrentPassword { get; set; }
         public string NewPassword { get; set; }
         public IFormFile Avatar { get; set; }
+
+        public bool IsAuth = false;
     }
 }

@@ -1,0 +1,168 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - FashionProject</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/HomeMain.css" />
+    <link rel="stylesheet" href="~/css/Home.css" />
+
+</head>
+<body>
+    <div class="Header">
+        <div class="EFN-Position">
+            <div class="EFN">
+                EFN
+            </div>
+        </div>
+
+    </div>
+    <div class="Menu">
+        <div class="Menu-Buttons">
+            <div class="Buttons">
+                <a href="" class="ButtonsStyle">
+                    News
+                </a>
+            </div>
+            <div class="Buttons">
+                <a href="" class="ButtonsStyle">
+                    Categories
+                </a>
+            </div>
+            <div class="Buttons">
+                <a href="" class="ButtonsStyle">
+                    Stars looks
+                </a>
+            </div>
+            <div class="Buttons">
+                <a href="" class="ButtonsStyle">
+                    Charts
+                </a>
+            </div>
+            <div class="Buttons">
+                <a href="" class="ButtonsStyle">
+                    Timeline
+                </a>
+            </div>
+            <div class="Buttons">
+                <a href="" class="ButtonsStyle">
+                    Contact us
+                </a>
+            </div>
+            <div class="Buttons">
+                <a href="" class="ButtonsStyle">
+                    About us
+                </a>
+            </div>
+            <div class="Account_buttons">
+                <div id="Switch" class="Buttons">
+                    <div class="Buttons">
+                        <a href="/RegistrationLogin/Login" class="ButtonsStyle">
+                            Log in
+                        </a>
+                    </div>
+                    <div class="Buttons">
+                        <a href="/RegistrationLogin/Registration" class="ButtonsStyle">
+                            Registration
+                        </a>
+                    </div>
+                </div>
+
+                <div id="SwitchButton" style="display:none">
+                    <div id="Switch2">
+                        <div class="Buttons">
+                            <a href="/Home/Profile" class="ButtonsStyle">
+                                Profile
+                            </a>
+                        </div>
+                        <div class="Buttons">
+                            <a href="#" onclick="LogOut()" class="ButtonsStyle">
+                                Log Out
+                            </a>
+                        </div>
+                    </div>
+
+                    <div id="Switch1">
+                        <div class="Buttons">
+                            <a href="/RegistrationLogin/Login" class="ButtonsStyle">
+                                Log in
+                            </a>
+                        </div>
+                        <div class="Buttons">
+                            <a href="/RegistrationLogin/Registration" class="ButtonsStyle">
+                                Registration
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @RenderBody()
+
+    <div class="Home">
+        <footerR>
+            <div class="Copyright">
+                © EFN 2021
+            </div>
+        </footerR>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://kennethgibson.site/ImageEncoder.js" asp-append-version="true"></script>
+
+    <script>
+        var IsAuth = false;
+        $.ajax({
+            type: 'GET',
+            url: '/api/Home/currentUser',
+            success: function (result) {
+                console.log(result); //убрать
+                if (result != null) {
+                    IsAuth = true;
+                    SwitchButtons();
+                }
+
+            },
+            error: function (err) {
+                console.error(err);
+            },
+        });
+    </script>
+    <script>
+        function SwitchButtons() {
+            if (IsAuth)
+                document.getElementById("Switch").innerHTML = document.getElementById("Switch2").innerHTML;
+            else
+                document.getElementById("Switch").innerHTML = document.getElementById("Switch1").innerHTML;
+        }
+    </script>
+
+    <script>
+        function LogOut() {
+            $.ajax({
+                type: 'GET',
+                url: '/api/RegistrationLogin/logout',
+                success: function (result) {
+                    console.log(result);
+                    IsAuth = false;
+                    SwitchButtons();
+                },
+                error: function (err) {
+                    console.error(err);
+                },
+                complete: function (com) {
+                    window.location.href = "/home/index";
+                }
+            });
+        }
+    </script>
+
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>

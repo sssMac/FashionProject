@@ -1,15 +1,17 @@
 ﻿using FashionProject.Models;
 using FashionProject.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace FashionProject.Controllers
 {
-    public class HomeController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class HomeController : ControllerBase
     {
         private ApplicationContext db;
         private JwtSecurityToken _token;
@@ -20,29 +22,9 @@ namespace FashionProject.Controllers
             db = context;
         }
 
-        public IActionResult Index()
+        [HttpPost("settings")]
+        public IActionResult Post([FromForm]UserViewModel model)
         {
-            
-            return View(CurrentUser);
-        }
-
-        public IActionResult Profile(UserViewModel model)
-        {
-            if (CurrentUser == null)
-            {
-                return RedirectToAction("Login", "RegistrationLogin");
-            }
-
-            return View(CurrentUser);
-        }
-
-        public IActionResult Settings(UserViewModel model)
-        {
-            if (CurrentUser == null)
-            {
-                return RedirectToAction("Login", "RegistrationLogin");
-            }
-
             if (model.Avatar != null)
             {
                 byte[] imageData = null;
@@ -58,21 +40,21 @@ namespace FashionProject.Controllers
                 CurrentUser.Username = model.Username;
             }
 
-            if (model.CurrentPassword != null && model.NewPassword !=null)
+            if (model.CurrentPassword != null && model.NewPassword != null)
             {
-                if(CurrentUser.Password == Encryption.EncryptString(model.CurrentPassword))
+                if (CurrentUser.Password == Encryption.EncryptString(model.CurrentPassword))
                 {
                     CurrentUser.Password = Encryption.EncryptString(model.NewPassword);
                 }
             }
 
-
             db.SaveChanges();
 
-            return View(CurrentUser);
+            return Ok();
         }
 
 
+        [HttpGet("currentUser")]
         public User GetUser()
         {
             var currentUser = HttpContext.User;
@@ -91,6 +73,7 @@ namespace FashionProject.Controllers
 
             var user = db.Users.FirstOrDefault(u => u.Id.ToString() == CurrentId);
 
+            
             return user;
         }
     }
