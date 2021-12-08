@@ -23,7 +23,7 @@ namespace FashionProject.Controllers
         }
 
         [HttpPost("settings")]
-        public IActionResult Post([FromForm]UserViewModel model)
+        public IActionResult Post([FromForm] UserViewModel model)
         {
             if (model.Avatar != null)
             {

@@ -8,11 +8,18 @@
 
 }
 
-<div class="Username">
+<div class="Username" style="font-size: 100px">
     Username
 </div>
 
-<img class="Avatar" style='width:300px; height:300px;' src="https://i0.wp.com/t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg" />
+
+<img src="https://i0.wp.com/t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYw.jpg" id="Avatar" style='width: 300px; height: 300px;'/>
+
+<div id="UploadAva">
+
+</div>
+
+
 
 <div class="Settings_button">
     <a class="ButtonsStyle" href="/home/Settings">
@@ -31,8 +38,7 @@
                     window.location.href = "/RegistrationLogin/login";
                 $(".Username").text(result.username);
                 if (result.avatar != null)
-                    $(".Avatar").attr("src", ByteArrayToJpeg(result.avatar));
-
+                    document.getElementById("Avatar").src = "data:img/png;base64," + result.avatar;
             },
             error: function (err) {
                 console.error(err);

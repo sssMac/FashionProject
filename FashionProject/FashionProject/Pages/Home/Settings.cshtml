@@ -9,11 +9,11 @@
     ViewBag.Title = "Settings";
 
 }
-<div class="Username">
+<div class="Username" style="font-size: 100px">
     Username
 </div>
 
-<img class="Avatar" style='width:300px; height:300px;' src="https://i0.wp.com/t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg" />
+<img id="Avatar" style='width:300px; height:300px;' src="https://i0.wp.com/t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg" />
 
 
 <form id="SettingsForm">
@@ -26,7 +26,7 @@
     <label>Avatar</label>
     <div class="Info">
         <div class="Second_Info">
-            <input type="file" class="Input" name="avatar">
+            <input id="avatar" type="file" class="Input" name="avatar">
         </div>
     </div>
     <div class="Info">
@@ -47,17 +47,32 @@
 
 @section Scripts {
     <script>
+         $.ajax({
+            type: 'GET',
+            url: '/api/Home/currentUser',
+             success: function (result) {
+                if (result == null)
+                    window.location.href = "/RegistrationLogin/login";
+                $(".Username").text(result.username);
+                if (result.avatar != null)
+                    document.getElementById("Avatar").src = "data:img/png;base64," + result.avatar;
+            },
+            error: function (err) {
+                console.error(err);
+            },
+        });
         $('#SettingsForm').on('submit', function (e) {
 
             e.preventDefault();
-            const data = Object.fromEntries(new FormData(e.target).entries());
-            console.log(data);
+
             $.ajax({
                 type: 'POST',
                 url: '/api/Home/settings',
-                data: data,
-                success: function (result) {
-                    console.log(result);
+                data: new FormData($('#SettingsForm')[0]),
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    $("#avatar").html(data);
                 },
                 error: function (err) {
                     console.error(err);
@@ -66,22 +81,7 @@
 
         });
 
-        $.ajax({
-            type: 'GET',
-            url: '/api/Home/currentUser',
-            success: function (result) {
-                console.log(result);
-                if (result == null)
-                    window.location.href = "/RegistrationLogin/login";
-                $(".Username").text(result.username);
-                if (result.avatar != null)
-                    $(".Avatar").attr("src", ByteArrayToJpeg(result.avatar));
-    
-            },
-            error: function (err) {
-                console.error(err);
-            },
-        });
+       
 
         
     </script>
