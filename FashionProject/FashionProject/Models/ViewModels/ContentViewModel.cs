@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FashionProject.Models
+namespace FashionProject.Models.ViewModels
 {
-    public class Content
+    public class ContentViewModel
     {
         public Guid Id { get; set; }
         public string Category { get; set; }
@@ -14,7 +14,6 @@ namespace FashionProject.Models
         public string SubTitle { get; set; }
         public string Description { get; set; }
         public long Date { get; set; }
-
-        public byte[] ContentImg { get; set; }
+        public IFormFile ContentImg { get; set; }
     }
 }

@@ -75,6 +75,7 @@ namespace FashionProject.Controllers
             return BadRequest();
         }
 
+        [Authorize]
         [HttpGet("logout")]
         public IActionResult Logout()
         {

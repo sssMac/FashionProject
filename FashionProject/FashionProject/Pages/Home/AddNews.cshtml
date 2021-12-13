@@ -1,0 +1,63 @@
+﻿@page
+@{
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+
+<form id="AddNews">
+    <div class="Info">
+        <div class="Second_Info">
+            <input type="text" placeholder="Titel" class="Input" name="title">
+        </div>
+    </div>
+    <div class="Info">
+        <div class="Second_Info">
+            <input type="text" placeholder="Category" class="Input" name="Category">
+        </div>
+    </div>
+    <div class="Info">
+        <div class="Second_Info">
+            <input type="text" placeholder="SubTitle" class="Input" name="SubTitle">
+        </div>
+    </div>
+    <div class="Info">
+        <div class="Second_Info">
+            <input type="text" placeholder="Description" class="Input" name="Description">
+        </div>
+    </div>
+    <div class="Info">
+        <div class="Second_Info">
+            <input type="file" id="Preview" class="Input" name="ContentImg">
+        </div>
+    </div>
+    <div class="Confirm_Button_Position">
+        <button type="submit" class="Confirm_Button">
+            ADD
+        </button>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        $('#AddNews').on('submit', function (e) {
+
+            e.preventDefault();
+
+            $.ajax({
+                type: 'POST',
+                url: '/api/Home/AddNews',
+                data: new FormData($('#AddNews')[0]),
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    $("#Preview").html(data);
+                },
+                error: function (err) {
+                    console.error(err);
+                },
+            });
+
+        });
+    </script>
+
+}
