@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 
 namespace FashionProject.Controllers
 {
@@ -77,7 +78,7 @@ namespace FashionProject.Controllers
 
             var user = db.Users.FirstOrDefault(u => u.Id.ToString() == CurrentId);
 
-            
+
             return user;
         }
 
@@ -116,6 +117,19 @@ namespace FashionProject.Controllers
                 else
                     return BadRequest();
             }
+            return Ok();
+        }
+
+        [HttpGet("GetContent")]
+        public List<Content> GetContent()
+        {
+            List<Content> con =  db.Content.Select(x => x).ToList<Content>();
+            return con;
+        }
+
+        [HttpPost("CreatePage")]
+        public IActionResult PostPageId(string id)
+        {
             return Ok();
         }
     }

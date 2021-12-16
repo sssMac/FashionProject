@@ -1,0 +1,27 @@
+﻿@page 
+@{
+    Layout = "../Shared/_Layout.cshtml";
+
+}
+
+@section Scripts
+{
+    <script>
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var id = url.searchParams.get("id");
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/home/CreatePage',
+            data: ,
+            success: function (result) {
+                console.log(result);
+            },
+            error: function (err) {
+                console.error(err);
+            },
+        });
+    </script>
+}
+
