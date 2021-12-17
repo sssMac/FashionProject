@@ -10,9 +10,9 @@
     <div class="Block_name">Fashion</div>
 </div>
 
-<div class="Card_container">
-</div>
+<div class="News" style="display:flex; flex-direction:row;">
 
+</div>
 
 <div class="Block_content">
     <div class="Block_line"></div>
@@ -45,38 +45,38 @@
 @section Scripts {
     <script>
 
-        var card = document.querySelector(".Card_container", )
+        var card = document.querySelector(".News", )
         $.ajax({
             type: 'GET',
             url: '/api/Home/GetContent',
             success: function (result) {
                 console.log(result)
                 for (var i = 0; i < result.length; i++) {
-                    card.innerHTML += `<div data-id="${result[i].id}" class="card_writer">
-                                            <div class="column">
-                                            <div class="demo-title">Normal</div>
-                                            <div class="post-module">
-                                                <!-- Thumbnail-->
-                                                <div class="thumbnail">
-                                                    <div class="date">
-                                                        <div class="day">27</div>
-                                                        <div class="month">Mar</div>
+                    card.innerHTML += `<div class="Card_container">
+                                                <div data-id="${result[i].id}" class="card_writer">
+                                                    <div class="post-module">
+                                                        <!-- Thumbnail-->
+                                                        <div class="thumbnail">
+                                                            <div class="date">
+                                                                <div class="day">27</div>
+                                                                <div class="month">Mar</div>
+                                                            </div>
+                                                            <img src="data:img/png;base64,${result[i].contentImg}" />
+                                                        </div>
+                                                        <!-- Post Content-->
+                                                        <div class="post-content">
+                                                            <div class="category">${result[i].category}</div>
+
+                                                            <h1 class="title">${result[i].title}</h1>
+
+                                                            <h2 class="sub_title">${result[i].subTitle}</h2>
+
+                                                            <div class="post-meta"><span class="timestamp"><i class="fa fa-clock-">o</i> 6 mins ago</span><span class="comments"><i class="fa fa-comments"></i><a href="#"> 39 comments</a></span></div>
+                                                        </div>
                                                     </div>
-                                                    <img src="data:img/png;base64,${result[i].contentImg}" />
-                                                </div>
-                                                <!-- Post Content-->
-                                                <div class="post-content">
-                                                    <div class="category">${result[i].category}</div>
-
-                                                    <h1 class="title">${result[i].title}</h1>
-
-                                                    <h2 class="sub_title">${result[i].subTitle}</h2>
-
-                                                    <div class="post-meta"><span class="timestamp"><i class="fa fa-clock-">o</i> 6 mins ago</span><span class="comments"><i class="fa fa-comments"></i><a href="#"> 39 comments</a></span></div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>`
+                                        </div>`
                 }
                 $(".card_writer").on("click", (e) => {
                     window.location = `/home/ContentPage?id=${$(e.currentTarget)[0].getAttribute('data-id')}`;

@@ -1,27 +1,116 @@
-﻿@page 
+﻿@page
+
 @{
     Layout = "../Shared/_Layout.cshtml";
 
 }
 
+<h1 class="Content_title">
+    Title
+</h1>
+<h2 class="Content_subtitle">
+    subTitle
+</h2>
+<h3 class="Content_category">
+    catrgory
+</h3>
+
+<div class="Content_description">
+    discription
+</div>
+
+
+
+
+
+
+
+<form id="Comennt_block">
+    <textarea placeholder="Hi! user, what's on your mind?" class="main_comment"></textarea>
+
+    <button type="submit" name="text">Publish</button>
+</form>
+
+<div class="View_Comment">
+
+</div>
+
+
+
+
+
 @section Scripts
 {
+
     <script>
         var url_string = window.location.href;
         var url = new URL(url_string);
         var id = url.searchParams.get("id");
 
+        var user;
         $.ajax({
-            type: 'POST',
-            url: '/api/home/CreatePage',
-            data: ,
+            type: 'GET',
+            url: '/api/Home/currentUser',
             success: function (result) {
-                console.log(result);
+                user = result;
             },
             error: function (err) {
                 console.error(err);
             },
         });
+
+        $.ajax({
+            type: 'GET',
+            url: `/api/Home/CreatePage?id=${id}`,
+            success: function (result) {
+                $(".Content_title").text(result.title);
+                $(".Content_subtitle").text(result.subTitle);
+                $(".Content_category").text(result.category);
+                $(".Content_description").text(result.description);
+            },
+        });
+
+        $.ajax({
+            type: 'GET',
+            url: `/api/Home/ViewComment?contentId=${id}`,
+            success: function (result) {
+              
+            },
+            error: function (err) {
+                console.error(err);
+            },
+        });
+
+        var data =  $('.main_comment').val();
+
+        //console.log(data)
+        //$('#Sumbit').submit(function (e) {
+
+        //    e.preventDefault();
+        //    e.stopPropagation();
+
+        //    $.ajax({
+        //        type: 'POST',
+        //        url: `/api/home/AddComment?contentId=${id}&userId=${user.id}`,
+        //        data: $('.Comennt_block').find('input, select, textarea, button').serialize()
+        //    });
+
+        //});
+
+        $(document).ready(function () {
+            $(document).on('submit', '#Comennt_block', function () {
+                $.ajax({
+                    type: 'POST',
+                    url: `/api/home/AddComment?contentId=${id}&userId=${user.id}`,
+                    data: $('.main_comment').val(),
+                    success: function (result) {
+                        console.log(result)
+                    }
+                });
+                return false;
+            });
+        });
+
     </script>
 }
 

@@ -11,6 +11,12 @@
 
 </head>
 <body>
+    <div class="loader">
+        <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
     <div class="Header">
         <div class="EFN-Position">
             <div class="EFN">
@@ -104,9 +110,6 @@
 
     <div class="Home">
         <footerR>
-            <div class="Copyright">
-                © EFN 2021
-            </div>
         </footerR>
     </div>
 
@@ -114,7 +117,13 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script>
+        $(window).ready(function () {
 
+            $(".loader").delay(400).fadeOut("slow");
+
+        });
+    </script>
     <script>
         $.ajax({
             type: 'GET',

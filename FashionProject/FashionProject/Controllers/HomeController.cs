@@ -109,7 +109,7 @@ namespace FashionProject.Controllers
                         SubTitle = model.SubTitle,
                         Description = model.Description,
                         ContentImg = img,
-                        Date = DateTime.Now.Second,
+                        Date = ((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds(),
                     };
                     db.Content.Add(newContent);
                     await db.SaveChangesAsync();
@@ -127,10 +127,45 @@ namespace FashionProject.Controllers
             return con;
         }
 
-        [HttpPost("CreatePage")]
-        public IActionResult PostPageId(string id)
+        
+        [HttpGet("CreatePage")]
+        public Content PostPageId(string id)
         {
+            var content = db.Content.FirstOrDefault(u => u.Id.ToString() == id);
+            return content;
+        }
+
+        [HttpPost("AddComment")]
+        public async Task<IActionResult> PostComment([FromForm] CommentViewModel model,string contentId,string userId)
+        {
+            if (ModelState.IsValid)
+            {
+                Content comment = await db.Content.FirstOrDefaultAsync(u => u.Id.ToString() == model.Id);
+               
+                if (comment == null)
+                {
+                    var newComment = new Comment
+                    {
+                        Id = Guid.NewGuid(),
+                        ContentId = Guid.Parse(contentId),
+                        UserId = Guid.Parse(userId),
+                        Text = model.Text,
+                        Date = ((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds(),
+                    };
+                    db.Comments.Add(newComment);
+                    await db.SaveChangesAsync();
+                }
+                else
+                    return BadRequest();
+            }
             return Ok();
+        }
+
+        [HttpGet("ViewComment")]
+        public List<Comment> GetComment(string contentId)
+        {
+            List<Comment> comment = db.Comments.Select(x => x).Where(x => x.ContentId.ToString() == contentId).ToList<Comment>();
+            return comment;
         }
     }
 }
