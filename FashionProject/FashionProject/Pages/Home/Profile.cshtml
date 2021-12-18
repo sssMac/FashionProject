@@ -7,13 +7,72 @@
     ViewBag.Title = "Profile";
 
 }
-
-<div class="Username" style="font-size: 100px">
-    Username
-</div>
+<head><link rel="stylesheet" href="~/css/Profile.css"/></head>
 
 
-<img src="https://i0.wp.com/t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYw.jpg" id="Avatar" style='width: 300px; height: 300px;' />
+<link rel="stylesheet" href="https://bootstraptema.ru/plugins/2015/bootstrap3/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<script src="https://bootstraptema.ru/plugins/jquery/jquery-1.11.3.min.js"></script>
+<script src="https://bootstraptema.ru/plugins/2015/b-v3-3-6/bootstrap.min.js"></script>
+
+
+<body>
+
+        <!-- Header -->
+        
+
+        <!-- Product Showcase -->
+        <div class="product-showcase">
+            <div class="product-showcase-pattern">
+                <div class="container">
+                    <div class="row">
+                        <div class="span12 product-background">
+                            <div class="row">
+                                <div class="span5 product-image">
+                                    <img src="https://i0.wp.com/t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYw.jpg" id="Avatar" style='width: 300px; height: 300px;' />
+                                </div>
+                                <div class="span7 product-title" style="margin-left: 40px;">
+                                    <div class="Username" style="font-size: 100px; color: white">
+                                        Username
+                                    </div>
+                                    <div class="product-description">
+                                        <div class="Settings_button" style="font-size: 25px;">
+                                            <a class="ButtonsStyle" href="/home/Settings" style="font-size: 40px;">
+                                                Settings
+                                            </a>
+                                        </div>
+                                        <a class="ButtonsStyle" href="/home/AddNews" style="font-size: 40px;">
+                                            Add News
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+
+        <!-- Javascript -->
+        <script src="assets/js/jquery-1.8.2.min.js"></script>
+        <script src="assets/js/jquery.backstretch.min.js"></script>
+        <script src="assets/js/jquery.tweet.js"></script>
+        <script src="assets/prettyPhoto/js/jquery.prettyPhoto.js"></script>
+        <script src="assets/js/iphone-scripts.js"></script>
+
+    </body>
+
+
+
+
+
+
+
+
+
 
 <div id="UploadAva">
 
@@ -21,15 +80,9 @@
 
 
 
-<div class="Settings_button">
-    <a class="ButtonsStyle" href="/home/Settings">
-        Settings
-    </a>
-</div>
 
-<a class="ButtonsStyle" href="/home/AddNews">
-    Add News
-</a>
+
+
 
 @section Scripts {
     <script>
