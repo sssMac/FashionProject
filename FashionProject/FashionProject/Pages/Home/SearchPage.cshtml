@@ -1,0 +1,84 @@
+﻿@page
+@{
+    Layout = "../Shared/_Layout.cshtml";
+
+}
+<div class="Search_content">
+
+</div>
+
+
+@section Scripts
+{
+    <script>
+        var card = document.querySelector(".Search_content")
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var title = url.searchParams.get("title");
+
+        $.ajax({
+            type: 'GET',
+            url: `/api/Home/SearchPage?title=${title}`,
+            success: function (result) {
+                for (var i = 0; i < result.length; i++) {
+                    card.innerHTML += `<div class="Card_container">
+                                                    <div data-id="${result[i].id}" class="card_writer">
+                                                        <div class="post-module">
+                                                            <!-- Thumbnail-->
+                                                            <div class="thumbnail">
+                                                                <div class="date">
+                                                                    <div class="day">${timeConverter(result[i].date).date}</div>
+                                                                    <div class="month">${timeConverter(result[i].date).month}</div>
+                                                                </div>
+                                                                <img src="data:img/png;base64,${result[i].contentImg}" />
+                                                            </div>
+                                                            <!-- Post Content-->
+                                                            <div class="post-content">
+                                                                <div class="category">${result[i].category}</div>
+
+                                                                <h1 class="title">${result[i].title}</h1>
+
+                                                                <h2 class="sub_title">${result[i].subTitle}</h2>
+
+                                                                <div class="post-meta"><span class="timestamp"><i class="fa fa-clock-"></i></span><span class="comments"><i class="fa fa-comments"></i><a id="countCom" href="#"> ${GetAmountComment(result[i].id)} comments</a></span></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>`
+                }
+                $(".card_writer").on("click", (e) => {
+                    window.location = `/home/ContentPage?id=${$(e.currentTarget)[0].getAttribute('data-id')}`;
+                });
+
+            },
+            error: function (err) {
+            },
+        });
+        function timeConverter(UNIX_timestamp) {
+            var a = new Date(UNIX_timestamp * 1000);
+            var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            var year = a.getFullYear();
+            var month = months[a.getMonth()];
+            var date = a.getDate();
+            var hour = a.getHours();
+            var min = a.getMinutes();
+            var sec = a.getSeconds();
+            var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
+            return { a, months, year, month, date, hour, min, sec, time };
+        }
+
+        function GetAmountComment(contentId) {
+            var a = $.ajax({
+                type: 'GET',
+                url: `/api/Home/AmountComments?contentId=${contentId}`,
+                success: function (result) {
+                    return console.log(result)
+                },
+                async: false,
+
+            });
+            return a.responseText
+        }
+    </script>
+}

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace FashionProject.Controllers
 {
@@ -174,6 +175,23 @@ namespace FashionProject.Controllers
         {
             List<Comment> comment = db.Comments.Select(c => c).Where(c => c.ContentId.ToString() == contentId).ToList();
             return comment.Count();
+        }
+
+        [HttpGet("SearchPage")]
+        public List<Content> SearchPage(string title)
+        {
+            List<Content> content = db.Content.Select(c => c).ToList();
+
+            List<Content> searchContent = new List<Content>();
+
+            var regex = new Regex(title, RegexOptions.IgnoreCase);
+
+            foreach (Content str in content)
+            {
+                if (regex.IsMatch(str.Title))
+                    searchContent.Add(str);
+            }
+            return searchContent;
         }
     }
 }
