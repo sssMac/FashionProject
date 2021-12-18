@@ -9,41 +9,61 @@
     ViewBag.Title = "Settings";
 
 }
-<div class="Username" style="font-size: 100px">
-    Username
-</div>
+<head><link rel="stylesheet" href="~/css/Profile.css"/></head>
 
-<img id="Avatar" style='width:300px; height:300px;' src="https://i0.wp.com/t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg" />
+ <div class="product-showcase">
+            <div class="product-showcase-pattern">
+                <div class="container">
+                    <div class="row">
+                        <div class="span12 product-background">
+                            <div class="row">
+                                <div class="span5 product-image">
+                                    <img src="https://i0.wp.com/t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYw.jpg" id="Avatar" style='width: 300px; height: 300px;' />
+                                </div>
+                                <div class="span7 product-title" style="margin-left: 40px;">
+                                    <div class="Username" style="font-size: 100px; color: white">
+                                        Username
+                                    </div>
+                                    <div class="product-description">
+                                        <form id="SettingsForm">
+                                            <label>Username</label>
+                                            <div class="Info">
+                                                <div class="Second_Info">
+                                                    <input type="text" placeholder="Email" class="Input" name="username">
+                                                </div>
+                                            </div>
+                                            <label>Avatar</label>
+                                            <div class="Info">
+                                                <div class="Second_Info">
+                                                    <input id="avatar" type="file" class="Input" name="avatar">
+                                                </div>
+                                            </div>
+                                            <div class="Info">
+                                                <div class="Second_Info">
+                                                    <input type="password" placeholder="Password" class="Input" name="currentpassword">
+                                                </div>
+                                            </div><div class="Info">
+                                            <div class="Second_Info">
+                                                <input type="password" placeholder="Password" class="Input" name="newpassword">
+                                            </div>
+                                        </div>
+                                            <div class="Confirm_Button_Position">
+                                                <button type="submit" class="Confirm_Button">
+                                                    Confirm
+                                                </button>
+                                            </div> 
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
-<form id="SettingsForm">
-    <label>Username</label>
-    <div class="Info">
-        <div class="Second_Info">
-            <input type="text" placeholder="Email" class="Input" name="username">
-        </div>
-    </div>
-    <label>Avatar</label>
-    <div class="Info">
-        <div class="Second_Info">
-            <input id="avatar" type="file" class="Input" name="avatar">
-        </div>
-    </div>
-    <div class="Info">
-        <div class="Second_Info">
-            <input type="password" placeholder="Password" class="Input" name="currentpassword">
-        </div>
-    </div><div class="Info">
-    <div class="Second_Info">
-        <input type="password" placeholder="Password" class="Input" name="newpassword">
-    </div>
-</div>
-    <div class="Confirm_Button_Position">
-        <button type="submit" class="Confirm_Button">
-            Confirm
-        </button>
-    </div> 
-</form>
+
 
 @section Scripts {
     <script>
