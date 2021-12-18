@@ -149,6 +149,7 @@ namespace FashionProject.Controllers
                         Id = Guid.NewGuid(),
                         ContentId = Guid.Parse(contentId),
                         UserId = Guid.Parse(userId),
+                        Author = db.Users.FirstOrDefault(u => u.Id.ToString() == userId).Username,
                         Text = model.Text,
                         Date = ((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds(),
                     };
@@ -166,6 +167,13 @@ namespace FashionProject.Controllers
         {
             List<Comment> comment = db.Comments.Select(x => x).Where(x => x.ContentId.ToString() == contentId).ToList<Comment>();
             return comment;
+        }
+
+        [HttpGet("AmountComments")]
+        public int GetAmountComment(string contentId)
+        {
+            List<Comment> comment = db.Comments.Select(c => c).Where(c => c.ContentId.ToString() == contentId).ToList();
+            return comment.Count();
         }
     }
 }

@@ -7,7 +7,7 @@
 
 <div class="Block_content">
     <div class="Block_line"></div>
-    <div class="Block_name">Fashion</div>
+    <div class="Block_name">News</div>
 </div>
 
 <div class="News" style="display:flex; flex-direction:row;">
@@ -18,8 +18,7 @@
     <div class="Block_line"></div>
     <div class="Block_name">Lifestyle</div>
 </div>
-<div class="Main_Content">
-
+<div class="Lifestyle" style="display:flex; flex-direction:row;">
 
 </div>
 
@@ -27,8 +26,7 @@
     <div class="Block_line"></div>
     <div class="Block_name">Beauty</div>
 </div>
-<div class="Main_Content">
-
+<div class="Beauty" style="display:flex; flex-direction:row;">
 
 </div>
 
@@ -36,30 +34,39 @@
     <div class="Block_line"></div>
     <div class="Block_name">Afisha</div>
 </div>
-<div class="Main_Content">
-
+<div class="Afisha" style="display:flex; flex-direction:row;">
 
 </div>
-
 
 @section Scripts {
     <script>
 
-        var card = document.querySelector(".News", )
+        var card = document.querySelector(".News")
         $.ajax({
             type: 'GET',
             url: '/api/Home/GetContent',
             success: function (result) {
-                console.log(result)
                 for (var i = 0; i < result.length; i++) {
+                    if (result[i].category == "LIFESTYLE") {
+                        card = document.querySelector(".Lifestyle");
+                    }
+                    else if (result[i].category == "BEAUTY") {
+                        card = document.querySelector(".Beauty");
+                    }
+                    else if (result[i].category == "AFISHA") {
+                        card = document.querySelector(".Afisha");
+                    }
+                    else {
+                        var card = document.querySelector(".News")
+                    }
                     card.innerHTML += `<div class="Card_container">
                                                 <div data-id="${result[i].id}" class="card_writer">
                                                     <div class="post-module">
                                                         <!-- Thumbnail-->
                                                         <div class="thumbnail">
                                                             <div class="date">
-                                                                <div class="day">27</div>
-                                                                <div class="month">Mar</div>
+                                                                <div class="day">${timeConverter(result[i].date).date}</div>
+                                                                <div class="month">${timeConverter(result[i].date).month}</div>
                                                             </div>
                                                             <img src="data:img/png;base64,${result[i].contentImg}" />
                                                         </div>
@@ -71,7 +78,7 @@
 
                                                             <h2 class="sub_title">${result[i].subTitle}</h2>
 
-                                                            <div class="post-meta"><span class="timestamp"><i class="fa fa-clock-">o</i> 6 mins ago</span><span class="comments"><i class="fa fa-comments"></i><a href="#"> 39 comments</a></span></div>
+                                                            <div class="post-meta"><span class="timestamp"><i class="fa fa-clock-"></i></span><span class="comments"><i class="fa fa-comments"></i><a id="countCom" href="#"> ${GetAmountComment(result[i].id)} comments</a></span></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -84,10 +91,34 @@
 
             },
             error: function (err) {
-                console.error(err);
             },
         });
 
+        function timeConverter(UNIX_timestamp) {
+            var a = new Date(UNIX_timestamp * 1000);
+            var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            var year = a.getFullYear();
+            var month = months[a.getMonth()];
+            var date = a.getDate();
+            var hour = a.getHours();
+            var min = a.getMinutes();
+            var sec = a.getSeconds();
+            var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
+            return { a, months, year, month, date, hour, min, sec, time};
+        }
+
+        function GetAmountComment(contentId) {
+            var a = $.ajax({
+                type: 'GET',
+                url: `/api/Home/AmountComments?contentId=${contentId}`,
+                success: function (result) {
+                    return console.log(result)
+                },
+                async: false,
+
+            });
+            return a.responseText
+        }
     </script>
 }
 

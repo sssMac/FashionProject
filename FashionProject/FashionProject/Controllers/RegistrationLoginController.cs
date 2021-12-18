@@ -75,7 +75,6 @@ namespace FashionProject.Controllers
             return BadRequest();
         }
 
-        [Authorize]
         [HttpGet("logout")]
         public IActionResult Logout()
         {
@@ -84,7 +83,5 @@ namespace FashionProject.Controllers
                 Response.Cookies.Delete("token");
             return Ok();
         }
-
-
     }
 }

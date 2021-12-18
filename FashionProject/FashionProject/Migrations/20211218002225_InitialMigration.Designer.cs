@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FashionProject.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20211213162900_InitialMigration")]
+    [Migration("20211218002225_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,6 +26,9 @@ namespace FashionProject.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<string>("Author")
+                        .HasColumnType("text");
 
                     b.Property<Guid>("ContentId")
                         .HasColumnType("uuid");

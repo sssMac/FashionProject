@@ -25,6 +25,9 @@ namespace FashionProject.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Author")
+                        .HasColumnType("text");
+
                     b.Property<Guid>("ContentId")
                         .HasColumnType("uuid");
 
